@@ -19,7 +19,9 @@ import AppsIcon from '@material-ui/icons/Apps';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import Dashboard from "../Dashboard/Dashboard";
+import Dashboard from '../Dashboard/Dashboard';
+import { Link, Redirect, Route, Switch } from 'react-router-dom';
+import CameraList from '../Camera/CameraList';
 
 const drawerWidth = 240;
 
@@ -104,6 +106,12 @@ export default function Sidebar() {
     return iconsArr[index];
   }
 
+  const links = [
+    {to: '/dashboard', label: 'Рабочий стол'},
+    {to: '/camera', label: 'Мои камеры'},
+    {to: '/events', label: 'События'}
+  ];
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -125,9 +133,14 @@ export default function Sidebar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Рабочий стол
-          </Typography>
+          <Route>
+            {
+              ({location}) => {
+                const currentLink = links.find(link => link.to === location.pathname)
+                return <Typography variant="h6" noWrap>{currentLink.label}</Typography>
+              }
+            }
+          </Route>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -150,12 +163,12 @@ export default function Sidebar() {
         </div>
         <Divider />
         <List>
-          {['Рабочий стол', 'Мои камеры', 'События'].map((text, index) => (
-            <ListItem button key={text}>
+          {links.map((link, index) => (
+            <ListItem button key={link.label} component={Link} to={link.to}>
               <ListItemIcon>
                 { icons(index) }
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={link.label} />
             </ListItem>
           ))}
         </List>
@@ -171,7 +184,12 @@ export default function Sidebar() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Dashboard />
+        <Switch>
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/camera" component={CameraList} />
+          <Route path="/" exact component={Dashboard} />
+          <Redirect to="/" />
+        </Switch>
       </main>
     </div>
   );

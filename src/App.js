@@ -1,11 +1,14 @@
 import React from 'react';
 import './App.css';
 import Sidebar from "./Sidebar/Sidebar";
+import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <Sidebar />
+      <BrowserRouter>
+        <Sidebar />
+      </BrowserRouter>
     </div>
   );
 }
