@@ -19,6 +19,7 @@ import AppsIcon from '@material-ui/icons/Apps';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Dashboard from "../Dashboard/Dashboard";
 
 const drawerWidth = 240;
 
@@ -170,9 +171,7 @@ export default function Sidebar() {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Typography paragraph>
-
-        </Typography>
+        <Dashboard />
       </main>
     </div>
   );
